@@ -82,5 +82,6 @@ The Terraform section deploys & manages:
   - [Instance picker](https://gcloud-compute.com/grid.html): complete table for instance
     comparison (with prices per region)
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
+
+<!-- END_TF_DOCS -->
