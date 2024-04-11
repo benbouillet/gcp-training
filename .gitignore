@@ -16,3 +16,6 @@ terraform.rc
 plan
 tfplan
 tfplan.json
+
+# Trivy cache
+.pre-commit-trivy-cache

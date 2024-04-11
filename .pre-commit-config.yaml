@@ -26,3 +26,8 @@ repos:
           - --skip-dirs
           - ./tests
           - . # last arg indicates the path/file to scan
+      - id: trivyconfig-docker
+        args:
+          - --skip-dirs
+          - ./tests
+          - . # last arg indicates the path/file to scan

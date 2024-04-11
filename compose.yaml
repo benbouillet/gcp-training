@@ -1,11 +1,12 @@
 services:
-  ci:
+  gcp-training-ci:
     user: "${USER}"
     image: iktos-gitlab-runner
     build:
       context: .
       args:
-        USER: "${USER}"
+        USER: "${USER:-non-root}"
+        UID: "${UID:-1000}"
     working_dir: /workdir
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /home/${USER}/.config/gcloud/application_default_credentials.json
