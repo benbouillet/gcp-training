@@ -84,4 +84,42 @@ The Terraform section deploys & manages:
 
 <!-- BEGIN_TF_DOCS -->
 
+## Requirements
+
+| Name                                                                     | Version |
+| ------------------------------------------------------------------------ | ------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | 1.8.0   |
+| <a name="requirement_google"></a> [google](#requirement_google)          | 5.24.0  |
+| <a name="requirement_random"></a> [random](#requirement_random)          | 3.6.0   |
+
+## Providers
+
+| Name                                                      | Version |
+| --------------------------------------------------------- | ------- |
+| <a name="provider_google"></a> [google](#provider_google) | 5.24.0  |
+| <a name="provider_random"></a> [random](#provider_random) | 3.6.0   |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name                                                                                                                                 | Type     |
+| ------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| [google_compute_network.vpc_network](https://registry.terraform.io/providers/hashicorp/google/5.24.0/docs/resources/compute_network) | resource |
+| [random_pet.stack](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/pet)                                | resource |
+
+## Inputs
+
+| Name                                                   | Description          | Type     | Default | Required |
+| ------------------------------------------------------ | -------------------- | -------- | ------- | :------: |
+| <a name="input_project"></a> [project](#input_project) | Google Cloud Project | `string` | n/a     |   yes    |
+| <a name="input_region"></a> [region](#input_region)    | Default GCP Region   | `string` | n/a     |   yes    |
+| <a name="input_zone"></a> [zone](#input_zone)          | Default GCP zone     | `string` | n/a     |   yes    |
+
+## Outputs
+
+No outputs.
+
 <!-- END_TF_DOCS -->
