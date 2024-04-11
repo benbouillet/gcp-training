@@ -3,7 +3,6 @@ FROM --platform=linux/amd64 ubuntu:22.04
 ARG USER=nonroot
 ARG UID=1000
 ARG TF_VERSION=1.8.0
-ARG CLOUDSDK_INSTALL_DIR=/usr/local/gcloud/
 
 WORKDIR /workdir
 
@@ -17,7 +16,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   jq \
   unzip \
   sudo \
-  ansible \
+  wget \
+  apt-transport-https \
+  gnupg \
+  lsb-release \
   && rm -rf /var/lib/apt/lists/*
 
 # Install terraform
@@ -32,3 +34,8 @@ RUN sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /bin
 # Install GCloud SDK
 RUN curl -sSL https://sdk.cloud.google.com | bash
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
+
+# Install Trivy
+RUN wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+RUN echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+RUN apt-get update && apt-get install trivy

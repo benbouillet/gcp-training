@@ -8,9 +8,11 @@ tasks:
     desc: Deploys the stack
     dotenv: [".env"]
     cmds:
+      - task: trivy-fs-scan
       - task: init
       - task: validate
       - task: plan
+      - task: trivy-tf-scan
       - task: apply
     preconditions:
       - sh: "gcloud compute regions list"
@@ -19,13 +21,25 @@ tasks:
   destroy:
     desc: Destroys the stack
     cmds:
+      - task: trivy-fs-scan
       - task: init
       - task: validate
       - task: plan
+      - task: trivy-tf-scan
       - task: apply-destroy
     preconditions:
       - sh: "gcloud compute regions list"
         msg: "No GCloud authentication credentials found. Cancelling task."
+
+  trivy-fs-scan:
+    dotenv: [".env"]
+    cmds:
+      - trivy fs --cache-dir /tmp/trivy/ .
+
+  trivy-tf-scan:
+    dotenv: [".env"]
+    cmds:
+      - trivy conf --cache-dir /tmp/trivy/ tfplan
 
   init:
     dotenv: [".env"]

@@ -81,3 +81,6 @@ The Terraform section deploys & manages:
     Compute Engine images comparison
   - [Instance picker](https://gcloud-compute.com/grid.html): complete table for instance
     comparison (with prices per region)
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

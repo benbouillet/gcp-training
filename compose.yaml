@@ -13,4 +13,5 @@ services:
     volumes:
       - .:/workdir:rw
       - ~/.config/gcloud:/home/${USER}/.config/gcloud:rw
+      - /tmp/trivy:/tmp/trivy:rw
     entrypoint: task
