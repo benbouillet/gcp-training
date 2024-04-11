@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.77.0
+    rev: v1.88.4
     hooks:
       - id: terraform_fmt
         args:
@@ -12,9 +12,9 @@ repos:
           - --args=--module
       - id: terraform_docs
         args:
-          - "--args=--lockfile=false"
+          - --args=--config=.terraform-docs.yml
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.6.0
     hooks:
       - id: check-merge-conflict
       - id: end-of-file-fixer
