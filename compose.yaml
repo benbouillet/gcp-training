@@ -1,0 +1,16 @@
+services:
+  ci:
+    user: "${USER}"
+    image: iktos-gitlab-runner
+    build:
+      context: .
+      args:
+        USER: "${USER}"
+    working_dir: /workdir
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /home/${USER}/.config/gcloud/application_default_credentials.json
+      AUTOAPPROVE: "${AUTOAPPROVE:-0}"
+    volumes:
+      - .:/workdir:rw
+      - ~/.config/gcloud:/home/${USER}/.config/gcloud:rw
+    entrypoint: task

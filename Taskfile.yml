@@ -1,0 +1,64 @@
+---
+version: "3"
+
+silent: true
+
+tasks:
+  deploy:
+    desc: Deploys the stack
+    dotenv: [".env"]
+    cmds:
+      - task: init
+      - task: validate
+      - task: plan
+      - task: apply
+    preconditions:
+      - sh: "gcloud compute regions list"
+        msg: "No GCloud authentication credentials found. Cancelling task."
+
+  destroy:
+    desc: Destroys the stack
+    cmds:
+      - task: init
+      - task: validate
+      - task: plan
+      - task: apply-destroy
+    preconditions:
+      - sh: "gcloud compute regions list"
+        msg: "No GCloud authentication credentials found. Cancelling task."
+
+  init:
+    dotenv: [".env"]
+    cmds:
+      - terraform init
+
+  validate:
+    cmds:
+      - terraform validate
+
+  plan:
+    dotenv: [".env"]
+    cmds:
+      - terraform plan -out tfplan
+
+  apply-destroy:
+    dotenv: [".env"]
+    cmds:
+      - |
+        if [[ $AUTOAPPROVE = 1 ]]
+        then
+          terraform apply -destroy -auto-approve
+        else
+          terraform apply -destroy
+        fi
+
+  apply:
+    dotenv: [".env"]
+    cmds:
+      - |
+        if [[ $AUTOAPPROVE = 1 ]]
+        then
+          terraform apply -auto-approve
+        else
+          terraform apply
+        fi
