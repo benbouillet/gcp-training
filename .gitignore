@@ -1,0 +1,18 @@
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# dotenv file
+.env
+
+# TF plan files
+plan
+tfplan
+tfplan.json
