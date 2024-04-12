@@ -83,21 +83,22 @@ The Terraform section deploys & manages:
     comparison (with prices per region)
 
 <!-- BEGIN_TF_DOCS -->
-
 ## Requirements
 
-| Name                                                                     | Version |
-| ------------------------------------------------------------------------ | ------- |
-| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | 1.8.0   |
-| <a name="requirement_google"></a> [google](#requirement_google)          | 5.24.0  |
-| <a name="requirement_random"></a> [random](#requirement_random)          | 3.6.0   |
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | 1.8.0 |
+| <a name="requirement_external"></a> [external](#requirement\_external) | ~> 2.3.3 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | 5.24.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.6.0 |
 
 ## Providers
 
-| Name                                                      | Version |
-| --------------------------------------------------------- | ------- |
-| <a name="provider_google"></a> [google](#provider_google) | 5.24.0  |
-| <a name="provider_random"></a> [random](#provider_random) | 3.6.0   |
+| Name | Version |
+|------|---------|
+| <a name="provider_external"></a> [external](#provider\_external) | 2.3.3 |
+| <a name="provider_google"></a> [google](#provider\_google) | 5.24.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.6.0 |
 
 ## Modules
 
@@ -105,21 +106,26 @@ No modules.
 
 ## Resources
 
-| Name                                                                                                                                 | Type     |
-| ------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| Name | Type |
+|------|------|
 | [google_compute_network.vpc_network](https://registry.terraform.io/providers/hashicorp/google/5.24.0/docs/resources/compute_network) | resource |
-| [random_pet.stack](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/pet)                                | resource |
+| [random_pet.stack](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/pet) | resource |
+| [external_external.git](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
 
 ## Inputs
 
-| Name                                                   | Description          | Type     | Default | Required |
-| ------------------------------------------------------ | -------------------- | -------- | ------- | :------: |
-| <a name="input_project"></a> [project](#input_project) | Google Cloud Project | `string` | n/a     |   yes    |
-| <a name="input_region"></a> [region](#input_region)    | Default GCP Region   | `string` | n/a     |   yes    |
-| <a name="input_zone"></a> [zone](#input_zone)          | Default GCP zone     | `string` | n/a     |   yes    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_client_name"></a> [client\_name](#input\_client\_name) | n/a | `string` | n/a | yes |
+| <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
+| <a name="input_gcp_project_id"></a> [gcp\_project\_id](#input\_gcp\_project\_id) | Google Cloud Project | `string` | n/a | yes |
+| <a name="input_gcp_region"></a> [gcp\_region](#input\_gcp\_region) | Default GCP Region | `string` | n/a | yes |
+| <a name="input_gcp_zone"></a> [gcp\_zone](#input\_gcp\_zone) | Default GCP zone | `string` | n/a | yes |
+| <a name="input_project_name"></a> [project\_name](#input\_project\_name) | n/a | `string` | n/a | yes |
+| <a name="input_project_owner"></a> [project\_owner](#input\_project\_owner) | n/a | `string` | n/a | yes |
+| <a name="input_technical_owner"></a> [technical\_owner](#input\_technical\_owner) | n/a | `string` | n/a | yes |
 
 ## Outputs
 
 No outputs.
-
 <!-- END_TF_DOCS -->
