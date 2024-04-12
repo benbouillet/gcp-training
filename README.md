@@ -16,19 +16,19 @@ docker compose build
 To deploy the stack:
 
 ```bash
-docker compose run --rm ci deploy
+docker compose run --rm gcp-training deploy
 ```
 
 To destroy the stack:
 
 ```bash
-docker compose run --rm ci destroy
+docker compose run --rm gcp-training destroy
 ```
 
 > Note: you can use the flag `AUTOAPPROVE=1` to avoid the interactive user confirmation:
 >
 > ```bash
-> AUTOAPPROVE=1 docker compose run --rm ci deploy
+> AUTOAPPROVE=1 docker compose run --rm gcp-training deploy
 > ```
 >
 > This works for both `deploy` & `destroy`.
