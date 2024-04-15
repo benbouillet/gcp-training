@@ -6,9 +6,13 @@ repos:
         args:
           - --args=--recursive
       - id: terraform_validate
+        args:
+          - --hook-config=--retry-once-with-cleanup=true
+      - id: terraform_providers_lock
+        args:
+          - --hook-config=--mode=only-check-is-current-lockfile-cross-platform
       - id: terraform_tflint
         args:
-          - --args=--recursive
           - --args=--module
       - id: terraform_docs
         args:
@@ -27,11 +31,11 @@ repos:
     hooks:
       - id: trivyfs-docker
         args:
-          - --skip-dirs
-          - ./tests
+          - --skip-files
+          - "*.tfstate*"
           - . # last arg indicates the path/file to scan
       - id: trivyconfig-docker
         args:
-          - --skip-dirs
-          - ./tests
+          - --ignorefile
+          - ./.trivyignore.yaml
           - . # last arg indicates the path/file to scan

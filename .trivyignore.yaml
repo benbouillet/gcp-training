@@ -1,0 +1,9 @@
+misconfigurations:
+  - id: AVD-GCP-0031
+    paths:
+      - "public_instance/main.tf"
+    statement: This instance needs a public IP
+  - id: AVD-GCP-0029
+    paths:
+      - "network.tf"
+    statement: VPC Flow logs can occur high costs for this example

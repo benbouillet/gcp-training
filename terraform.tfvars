@@ -1,2 +1,2 @@
-region = "europe-north1"
-zone   = "europe-north1-b"
+project_name = "gcp-training"
+environment  = "sandbox"
