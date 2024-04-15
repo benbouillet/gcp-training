@@ -19,3 +19,6 @@ tfplan.json
 
 # Trivy cache
 .pre-commit-trivy-cache
+
+# debug
+debug.tf

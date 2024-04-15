@@ -1,6 +1,6 @@
 data "external" "git" {
   program = ["sh", "-c", <<-EOSCRIPT
-    https_url=$(git config --get remote.origin.url | sed -E 's#^git@(.*):(.*)\.git$#https://\1/\2#;s#^https://(gitlab-ci-token:.*@)(.*)(\.git)+$#https://\2#')
+    https_url=$(git remote get-url origin | sed -E 's#^.*(git.*\..{2,3}):#\1/#g;s#\.git$##g;s#[\/\.]#_#g')
     echo "{\"https_url\": \"$https_url\"}"
   EOSCRIPT
   ]
@@ -9,7 +9,6 @@ data "external" "git" {
 provider "google" {
   project = var.gcp_project_id
   region  = var.gcp_region
-  zone    = var.gcp_zone
 
   default_labels = {
     technical_owner = var.technical_owner

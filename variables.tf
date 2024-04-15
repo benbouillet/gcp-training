@@ -33,7 +33,7 @@ variable "gcp_region" {
   type        = string
 }
 
-variable "gcp_zone" {
-  description = "Default GCP zone"
+variable "instances_user" {
+  description = "Default user used to connect to the compute instances"
   type        = string
 }

@@ -8,33 +8,62 @@ tasks:
     desc: Deploys the stack
     dotenv: [".env"]
     cmds:
-      - task: trivy-fs-scan
+      - task: _rm-providers
       - task: init
       - task: validate
       - task: plan
+      - task: infracost
       - task: trivy-tf-scan
+      - task: user-confirmation
+      - task: apply
+    preconditions:
+      - sh: "gcloud compute regions list --project $TF_VAR_gcp_project_id"
+        msg: "No GCloud authentication credentials found. Cancelling task."
+
+  destroy:
+    desc: Destroys the stack
+    dotenv: [".env"]
+    cmds:
+      - task: _rm-providers
+      - task: init
+      - task: validate
+      - task: plan-destroy
+      - task: user-confirmation
       - task: apply
     preconditions:
       - sh: "gcloud compute regions list"
         msg: "No GCloud authentication credentials found. Cancelling task."
 
-  destroy:
-    desc: Destroys the stack
+  user-confirmation:
+    interactive: true
+    status:
+      - "[[ $AUTOAPPROVE = 1 ]]"
     cmds:
-      - task: trivy-fs-scan
-      - task: init
-      - task: validate
-      - task: plan
-      - task: trivy-tf-scan
-      - task: apply-destroy
-    preconditions:
-      - sh: "gcloud compute regions list"
-        msg: "No GCloud authentication credentials found. Cancelling task."
+      - |
+        read -p "Apply?[yY/nN] " -r
+        echo    # (optional) move to a new line
+        if [[ ! $REPLY =~ ^[Yy]$ ]]
+        then
+            exit 1
+        fi
 
-  trivy-fs-scan:
-    dotenv: [".env"]
+  infracost:
+    desc: Estimates the monthly costs of the stack
     cmds:
-      - trivy fs --cache-dir /tmp/trivy/ .
+      - |
+        if [ ${INFRACOST_API_KEY} = null ]; then
+          echo "INFRACOST_API_KEY variable is empty. Ignoring costs estimation."
+        else
+          infracost breakdown --path .
+        fi
+
+  _rm-providers:
+    status:
+      - "[[ $NOINIT = 1 ]]"
+    cmds:
+      - |
+        echo "Removing Terraform modules cached folder"
+        rm -rf .terraform
 
   trivy-tf-scan:
     dotenv: [".env"]
@@ -43,8 +72,10 @@ tasks:
 
   init:
     dotenv: [".env"]
+    preconditions:
+      - "[[ $IAC_BUCKET != null ]]"
     cmds:
-      - terraform init
+      - terraform init -backend-config="bucket=${IAC_BUCKET}"
 
   validate:
     cmds:
@@ -55,24 +86,27 @@ tasks:
     cmds:
       - terraform plan -out tfplan
 
-  apply-destroy:
+  plan-destroy:
     dotenv: [".env"]
     cmds:
-      - |
-        if [[ $AUTOAPPROVE = 1 ]]
-        then
-          terraform apply -destroy -auto-approve
-        else
-          terraform apply -destroy
-        fi
+      - terraform plan -destroy -out tfplan
 
   apply:
     dotenv: [".env"]
     cmds:
-      - |
-        if [[ $AUTOAPPROVE = 1 ]]
-        then
-          terraform apply -auto-approve
-        else
-          terraform apply
-        fi
+      - terraform apply tfplan
+
+  list:
+    dotenv: [".env"]
+    cmds:
+      - terraform state list
+
+  show:
+    dotenv: [".env"]
+    cmds:
+      - terraform state show {{.CLI_ARGS}}
+
+  output:
+    dotenv: [".env"]
+    cmds:
+      - terraform output {{.CLI_ARGS}}

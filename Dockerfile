@@ -2,7 +2,8 @@ FROM --platform=linux/amd64 ubuntu:22.04
 
 ARG USER
 ARG UID
-ARG TF_VERSION=1.8.0
+ARG TF_VERSION=1.7.5
+ARG GCLOUD_PATH=/usr/local
 
 WORKDIR /workdir
 
@@ -32,8 +33,8 @@ RUN curl -sL -o terraform_${TF_VERSION}_linux_amd64.zip https://releases.hashico
 RUN sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /bin
 
 # Install GCloud SDK
-RUN curl -sSL https://sdk.cloud.google.com | bash
-ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
+RUN curl -sSL https://sdk.cloud.google.com | bash -s -- --disable-prompts --install-dir="${GCLOUD_PATH}"
+ENV PATH $PATH:"${GCLOUD_PATH}"/google-cloud-sdk/bin
 
 # Install Trivy
 RUN curl -sSL https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null \
@@ -42,6 +43,9 @@ RUN curl -sSL https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --d
   && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
   trivy
 
+# Install Infracost
+RUN curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+
 USER "${USER}"
 
-HEALTHCHECK CMD ["terraform", "--version"]
+HEALTHCHECK CMD terraform --version && gcloud --version
